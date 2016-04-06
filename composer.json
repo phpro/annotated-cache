@@ -1,0 +1,20 @@
+{
+    "name": "phpro/annotated-cache",
+    "description": "This package will make it easy to cache resources in your application",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Toon Verwerft",
+            "email": "toonverwerft@gmail.com"
+        }
+    ],
+    "require": {
+        "doctrine/annotations": "^1.2",
+        "psr/cache": "^1.0",
+        "cache/taggable-cache": "^0.4.0",
+        "ocramius/proxy-manager": "^2.0",
+        "cache/adapter-common": "^0.3.0",
+        "symfony/expression-language": "^3.0",
+        "doctrine/collections": "^1.3"
+    }
+}
