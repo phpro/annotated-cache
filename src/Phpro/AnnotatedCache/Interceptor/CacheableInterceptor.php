@@ -9,6 +9,7 @@ use Phpro\AnnotatedCache\Cache\PoolManager;
 use Phpro\AnnotatedCache\Exception\RuntimeException;
 use Phpro\AnnotatedCache\Interception\InterceptionPrefixInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionSuffixInterface;
+use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
 
 /**
  * Class CacheableInterceptor
@@ -24,13 +25,20 @@ class CacheableInterceptor implements InterceptorInterface
     private $poolManager;
 
     /**
+     * @var KeyGeneratorInterface
+     */
+    private $keyGenerator;
+
+    /**
      * CacheableInterceptor constructor.
      *
-     * @param PoolManager $poolManager
+     * @param PoolManager           $poolManager
+     * @param KeyGeneratorInterface $keyGenerator
      */
-    public function __construct(PoolManager $poolManager)
+    public function __construct(PoolManager $poolManager, KeyGeneratorInterface $keyGenerator)
     {
         $this->poolManager = $poolManager;
+        $this->keyGenerator = $keyGenerator;
     }
 
     /**
@@ -51,7 +59,7 @@ class CacheableInterceptor implements InterceptorInterface
      */
     public function interceptPrefix(CacheAnnotationInterface $annotation, InterceptionPrefixInterface $interception)
     {
-        $key = $this->calculateKey($annotation);
+        $key = $this->calculateKey($annotation, $interception);
         foreach ($annotation->pools as $poolName) {
             if (!$cacheItem = $this->locateCachedItem($poolName, $key)) {
                 continue;
@@ -69,7 +77,7 @@ class CacheableInterceptor implements InterceptorInterface
      */
     public function interceptSuffix(CacheAnnotationInterface $annotation, InterceptionSuffixInterface $interception)
     {
-        $key = $this->calculateKey($annotation);
+        $key = $this->calculateKey($annotation, $interception);
 
         $item = new CacheItem($key);
         $item->set($interception->getReturnValue());
@@ -85,9 +93,15 @@ class CacheableInterceptor implements InterceptorInterface
         }
     }
 
-    private function calculateKey(CacheAnnotationInterface $annotation)
+    /**
+     * @param Cacheable    $annotation
+     * @param InterceptionSuffixInterface $interception
+     *
+     * @return string
+     */
+    private function calculateKey(CacheAnnotationInterface $annotation, InterceptionSuffixInterface $interception)
     {
-        return '';
+        return $this->keyGenerator->generateKey($interception->getParams(), $annotation->key);
     }
 
     /**

@@ -41,15 +41,10 @@ class ExpressionGenerator implements KeyGeneratorInterface
      */
     public function generateKey(array $parameters, $format = '')
     {
-        
-        if (!$format) {
-            throw new UnsupportedKeyParameterException('There is no format specified for the expression key generator.');
+        if ($format && $result = $this->language->evaluate($format, $parameters)) {
+            $parameters = ['expression' => $result];
         }
 
-        if (!$result = $this->language->evaluate($format, $parameters)) {
-            throw new UnsupportedKeyParameterException(sprintf('Unable to evaluate expression %s', $format));
-        }
-
-        return $this->keyGenerator->generateKey(['expression' => $result], $format);
+        return $this->keyGenerator->generateKey($parameters, $format);
     }
 }
