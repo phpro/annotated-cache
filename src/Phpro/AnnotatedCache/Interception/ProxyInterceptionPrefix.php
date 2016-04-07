@@ -2,14 +2,12 @@
 
 namespace Phpro\AnnotatedCache\Interception;
 
-use Phpro\AnnotatedCache\Collection\AnnotationCollection;
-
 /**
  * Class ProxyInterceptionPrefix
  *
  * @package Phpro\AnnotatedCache\Interception
  */
-class ProxyInterceptionPrefix implements InterceptionPrefixInterface
+final class ProxyInterceptionPrefix implements InterceptionPrefixInterface
 {
     /**
      * @var mixed

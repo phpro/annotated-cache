@@ -4,7 +4,7 @@ namespace Phpro\AnnotatedCache\Proxy;
 
 use Doctrine\Common\Annotations\Reader;
 use Phpro\AnnotatedCache\Annotation\CacheAnnotation;
-use Phpro\AnnotatedCache\Cache\CacheHandler;
+use Phpro\AnnotatedCache\Cache\CacheHandlerInterface;
 use Phpro\AnnotatedCache\Collection\AnnotationCollection;
 use Phpro\AnnotatedCache\Interception\ProxyInterceptionPrefix;
 use Phpro\AnnotatedCache\Interception\ProxyInterceptionSuffix;
@@ -31,7 +31,7 @@ class ProxyGenerator
     private $annotationsReader;
 
     /**
-     * @var CacheHandler
+     * @var CacheHandlerInterface
      */
     private $cacheHandler;
 
@@ -40,12 +40,12 @@ class ProxyGenerator
      *
      * @param AccessInterceptorValueHolderFactory $proxyFactory
      * @param Reader                              $annotationsReader
-     * @param CacheHandler                        $cacheHandler
+     * @param CacheHandlerInterface               $cacheHandler
      */
     public function __construct(
         AccessInterceptorValueHolderFactory $proxyFactory,
         Reader $annotationsReader,
-        CacheHandler $cacheHandler
+        CacheHandlerInterface $cacheHandler
     ) {
         $this->proxyFactory = $proxyFactory;
         $this->annotationsReader = $annotationsReader;

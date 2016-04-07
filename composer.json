@@ -29,6 +29,11 @@
             "Phpro\\AnnotatedCache\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-0": {
+            "PhproTest\\AnnotatedCache\\": "tests"
+        }
+    },
     "suggest": {
         "cache/cache": "This package provides a set of PSR6 pool adapters and a taggable implementation."
     }

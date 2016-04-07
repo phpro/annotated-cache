@@ -5,6 +5,7 @@ namespace Phpro\AnnotatedCache;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\Reader;
 use Phpro\AnnotatedCache\Cache\CacheHandler;
+use Phpro\AnnotatedCache\Cache\CacheHandlerInterface;
 use Phpro\AnnotatedCache\Cache\PoolManager;
 use Phpro\AnnotatedCache\KeyGenerator\ExpressionGenerator;
 use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
@@ -20,7 +21,6 @@ use ProxyManager\Factory\AccessInterceptorValueHolderFactory;
  */
 class Factory
 {
-
     /**
      * @return ExpressionGenerator
      */
@@ -56,14 +56,14 @@ class Factory
     }
 
     /**
-     * @param CacheHandler       $cacheHandler
-     * @param Configuration|null $proxyConfig
-     * @param Reader|null        $annotationReader
+     * @param CacheHandlerInterface $cacheHandler
+     * @param Configuration|null    $proxyConfig
+     * @param Reader|null           $annotationReader
      *
      * @return ProxyGenerator
      */
     public static function createProxyGenerator(
-        CacheHandler $cacheHandler,
+        CacheHandlerInterface $cacheHandler,
         Configuration $proxyConfig = null,
         Reader $annotationReader = null
     ) {

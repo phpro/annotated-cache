@@ -33,7 +33,7 @@ abstract class CacheAnnotation implements CacheAnnotationInterface
             throw new InvalidArgumentException('You must define a "pools" attribute for each Cacheable annotation.');
         }
 
-        $this->caches = array_map('trim', explode(',', $values['pools']));
+        $this->pools = array_map('trim', explode(',', $values['pools']));
 
         if (isset($values['key'])) {
             $this->key = $values['key'];

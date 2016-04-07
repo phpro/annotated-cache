@@ -7,7 +7,7 @@ namespace Phpro\AnnotatedCache\Interception;
  *
  * @package Phpro\AnnotatedCache\Interception
  */
-class ProxyInterceptionSuffix implements InterceptionSuffixInterface
+final class ProxyInterceptionSuffix implements InterceptionSuffixInterface
 {
     /**
      * @var mixed

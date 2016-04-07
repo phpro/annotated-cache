@@ -5,4 +5,5 @@ parameters:
         phpunit: ~
         phpcs:
             standard: PSR2
-
+            ignore_patterns:
+                - tests/*.php

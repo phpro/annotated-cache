@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./tests/bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>./tests/PhproTest/AnnotatedCache/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <testsuites>
+        <testsuite name="Functional">
+            <directory>./tests/PhproTest/AnnotatedCache/Functional</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

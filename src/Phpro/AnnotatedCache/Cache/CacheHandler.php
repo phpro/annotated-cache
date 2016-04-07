@@ -16,7 +16,7 @@ use Phpro\AnnotatedCache\Interceptor\InterceptorInterface;
  *
  * @package Phpro\AnnotatedCache\CacheAnnotation
  */
-class CacheHandler
+class CacheHandler implements CacheHandlerInterface
 {
     /**
      * @var InterceptorInterface[]

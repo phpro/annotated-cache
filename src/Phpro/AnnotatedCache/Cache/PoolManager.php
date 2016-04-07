@@ -11,7 +11,7 @@ use Psr\Cache\CacheItemPoolInterface;
  *
  * @package Phpro\AnnotatedCache\Cache
  */
-class PoolManager
+class PoolManager implements PoolManagerInterface
 {
 
     /**

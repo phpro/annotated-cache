@@ -5,8 +5,9 @@ namespace Phpro\AnnotatedCache\Interceptor;
 use Cache\Adapter\Common\CacheItem;
 use Phpro\AnnotatedCache\Annotation\Cacheable;
 use Phpro\AnnotatedCache\Annotation\CacheAnnotationInterface;
-use Phpro\AnnotatedCache\Cache\PoolManager;
+use Phpro\AnnotatedCache\Cache\PoolManagerInterface;
 use Phpro\AnnotatedCache\Exception\RuntimeException;
+use Phpro\AnnotatedCache\Interception\InterceptionInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionPrefixInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionSuffixInterface;
 use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
@@ -20,7 +21,7 @@ class CacheableInterceptor implements InterceptorInterface
 {
 
     /**
-     * @var PoolManager
+     * @var PoolManagerInterface
      */
     private $poolManager;
 
@@ -32,10 +33,10 @@ class CacheableInterceptor implements InterceptorInterface
     /**
      * CacheableInterceptor constructor.
      *
-     * @param PoolManager           $poolManager
+     * @param PoolManagerInterface  $poolManager
      * @param KeyGeneratorInterface $keyGenerator
      */
-    public function __construct(PoolManager $poolManager, KeyGeneratorInterface $keyGenerator)
+    public function __construct(PoolManagerInterface $poolManager, KeyGeneratorInterface $keyGenerator)
     {
         $this->poolManager = $poolManager;
         $this->keyGenerator = $keyGenerator;
@@ -77,6 +78,10 @@ class CacheableInterceptor implements InterceptorInterface
      */
     public function interceptSuffix(CacheAnnotationInterface $annotation, InterceptionSuffixInterface $interception)
     {
+        if (!$interception->getReturnValue()) {
+            return;
+        }
+
         $key = $this->calculateKey($annotation, $interception);
 
         $item = new CacheItem($key);
@@ -94,12 +99,12 @@ class CacheableInterceptor implements InterceptorInterface
     }
 
     /**
-     * @param Cacheable    $annotation
-     * @param InterceptionSuffixInterface $interception
+     * @param CacheAnnotationInterface $annotation
+     * @param InterceptionInterface    $interception
      *
      * @return string
      */
-    private function calculateKey(CacheAnnotationInterface $annotation, InterceptionSuffixInterface $interception)
+    private function calculateKey(CacheAnnotationInterface $annotation, InterceptionInterface $interception)
     {
         return $this->keyGenerator->generateKey($interception->getParams(), $annotation->key);
     }
