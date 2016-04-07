@@ -59,8 +59,8 @@ class ProxyGenerator
      */
     public function generate($instance)
     {
+        $class = new ReflectionClass($instance);
         $proxy = $this->proxyFactory->createProxy($instance);
-        $class = new ReflectionClass(get_class($instance));
 
         foreach ( $this->collectCacheMethods($class) as $method => $annotations) {
             $this->registerPrefixInterceptor($proxy, $method, $annotations);
