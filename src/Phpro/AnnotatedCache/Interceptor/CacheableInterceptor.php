@@ -88,7 +88,7 @@ class CacheableInterceptor implements InterceptorInterface
         }
 
         foreach ($annotation->pools as $poolName) {
-            $pool = $this->poolManager->getPool('pool');
+            $pool = $this->poolManager->getPool($poolName);
             $pool->saveDeferred($item);
         }
     }

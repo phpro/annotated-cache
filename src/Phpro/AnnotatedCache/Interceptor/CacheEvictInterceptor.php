@@ -67,7 +67,7 @@ class CacheEvictInterceptor implements InterceptorInterface
     public function interceptSuffix(CacheAnnotationInterface $annotation, InterceptionSuffixInterface $interception)
     {
         foreach ($annotation->pools as $poolName) {
-            $pool = $this->poolManager->getPool('pool');
+            $pool = $this->poolManager->getPool($poolName);
             $this->evictKey($pool, $this->calculateKey($annotation, $interception));
             $this->evictTags($pool, $annotation->tags);
         }

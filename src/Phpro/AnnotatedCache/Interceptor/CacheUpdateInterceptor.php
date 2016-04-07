@@ -74,9 +74,8 @@ class CacheUpdateInterceptor implements InterceptorInterface
             $item->expiresAfter($annotation->ttl);
         }
 
-
         foreach ($annotation->pools as $poolName) {
-            $pool = $this->poolManager->getPool('pool');
+            $pool = $this->poolManager->getPool($poolName);
             $pool->saveDeferred($item);
         }
     }
