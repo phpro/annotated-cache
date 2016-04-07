@@ -62,7 +62,7 @@ class ProxyGenerator
         $class = new ReflectionClass($instance);
         $proxy = $this->proxyFactory->createProxy($instance);
 
-        foreach ( $this->collectCacheMethods($class) as $method => $annotations) {
+        foreach ($this->collectCacheMethods($class) as $method => $annotations) {
             $this->registerPrefixInterceptor($proxy, $method, $annotations);
             $this->registerSuffixInterceptor($proxy, $method, $annotations);
         }
@@ -83,7 +83,6 @@ class ProxyGenerator
             if ($annotations->count()) {
                 $methods[$method->getName()] = $annotations;
             }
-
         }
 
         return $methods;
@@ -96,7 +95,7 @@ class ProxyGenerator
      */
     private function collectMethodCacheAnnotations(ReflectionMethod $method)
     {
-        $annotations = array_filter($this->annotationsReader->getMethodAnnotations($method), function($annotation) {
+        $annotations = array_filter($this->annotationsReader->getMethodAnnotations($method), function ($annotation) {
             return $annotation instanceof CacheAnnotation;
         });
 
@@ -120,7 +119,10 @@ class ProxyGenerator
             $method,
             $params,
             & $returnEarly
-        ) use ($cacheHandler, $annotations) {
+        ) use (
+            $cacheHandler,
+            $annotations
+) {
             $interception = new ProxyInterceptionPrefix($instance, $method, $params);
             if (!$result = $cacheHandler->interceptProxyPrefix($annotations, $interception)) {
                 return null;
@@ -136,7 +138,7 @@ class ProxyGenerator
      * @param string                     $method
      * @param AnnotationCollection       $annotations
      */
-    private function registerSuffixInterceptor (
+    private function registerSuffixInterceptor(
         AccessInterceptorInterface $proxy,
         $method,
         AnnotationCollection $annotations
@@ -149,9 +151,12 @@ class ProxyGenerator
             $params,
             $returnValue,
             & $returnEarly
-        ) use ($cacheHandler, $annotations) {
+        ) use (
+            $cacheHandler,
+            $annotations
+) {
             $interception = new ProxyInterceptionSuffix($instance, $method, $params, $returnValue);
-            if(!$result = $cacheHandler->interceptProxySuffix($annotations, $interception)) {
+            if (!$result = $cacheHandler->interceptProxySuffix($annotations, $interception)) {
                 return null;
             }
 

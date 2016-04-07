@@ -28,7 +28,9 @@ class SimpleHashKeyGenerator implements KeyGeneratorInterface
             } elseif (is_array($value) || is_object($value)) {
                 $paramHash = sha1(serialize($value));
             } else {
-                throw new UnsupportedKeyParameterException(sprintf('Not supported parameter type "%s"', gettype($value)));
+                throw new UnsupportedKeyParameterException(
+                    sprintf('Not supported parameter type "%s"', gettype($value))
+                );
             }
             $hash .= $key . '=' . $paramHash . ';';
         }

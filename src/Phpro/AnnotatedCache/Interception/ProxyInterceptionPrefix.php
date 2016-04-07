@@ -29,7 +29,7 @@ class ProxyInterceptionPrefix implements InterceptionPrefixInterface
     /**
      * ProxyInterceptionPrefix constructor.
      */
-    public function __construct( $instance, $method, $params)
+    public function __construct($instance, $method, $params)
     {
         $this->instance = $instance;
         $this->method = $method;

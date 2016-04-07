@@ -10,5 +10,4 @@ namespace Phpro\AnnotatedCache\Exception;
  */
 class InvalidArgumentException extends RuntimeException
 {
-
 }

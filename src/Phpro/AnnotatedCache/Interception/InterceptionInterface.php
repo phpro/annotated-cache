@@ -28,5 +28,4 @@ interface InterceptionInterface
      * @return array
      */
     public function getParams();
-
 }

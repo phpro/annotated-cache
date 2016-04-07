@@ -20,7 +20,7 @@ class AnnotationCollection extends ArrayCollection
      */
     public function getCacheable()
     {
-        return $this->filter(function(CacheAnnotationInterface $annotation) {
+        return $this->filter(function (CacheAnnotationInterface $annotation) {
             return $annotation instanceof Cacheable;
         });
     }
@@ -30,7 +30,7 @@ class AnnotationCollection extends ArrayCollection
      */
     public function getCacheEvicts()
     {
-        return $this->filter(function(CacheAnnotationInterface $annotation) {
+        return $this->filter(function (CacheAnnotationInterface $annotation) {
             return $annotation instanceof CacheEvict;
         });
     }
@@ -40,7 +40,7 @@ class AnnotationCollection extends ArrayCollection
      */
     public function getCacheUpdates()
     {
-        return $this->filter(function(CacheAnnotationInterface $annotation) {
+        return $this->filter(function (CacheAnnotationInterface $annotation) {
             return $annotation instanceof CacheUpdate;
         });
     }

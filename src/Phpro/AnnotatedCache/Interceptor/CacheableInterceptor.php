@@ -54,7 +54,7 @@ class CacheableInterceptor implements InterceptorInterface
     /**
      * @param Cacheable                   $annotation
      * @param InterceptionPrefixInterface $interception
-     * 
+     *
      * @return mixed
      */
     public function interceptPrefix(CacheAnnotationInterface $annotation, InterceptionPrefixInterface $interception)

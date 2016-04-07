@@ -90,6 +90,4 @@ class CacheUpdateInterceptor implements InterceptorInterface
     {
         return $this->keyGenerator->generateKey($interception->getParams(), $annotation->key);
     }
-
-
 }
