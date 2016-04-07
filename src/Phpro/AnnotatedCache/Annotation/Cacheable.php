@@ -13,6 +13,11 @@ final class Cacheable extends CacheAnnotation
      */
     public $ttl = 0;
 
+    /**
+     * Cacheable constructor.
+     *
+     * @param array $values
+     */
     public function __construct(array $values)
     {
         parent::__construct($values);
