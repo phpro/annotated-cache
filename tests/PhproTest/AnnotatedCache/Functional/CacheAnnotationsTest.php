@@ -105,6 +105,7 @@ class CacheAnnotationsTest extends \PHPUnit_Framework_TestCase
 
         $this->service->removeBook($book);
         $cachedBook = $this->getCacheItem($cacheKey);
-        $this->assertNull($cachedBook);
+        $this->assertNull($cachedBook->get());
+        $this->assertFalse($cachedBook->isHit());
     }
 }

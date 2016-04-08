@@ -49,8 +49,8 @@ class Factory
 
         $cacheHandler = new CacheHandler();
         $cacheHandler->addInterceptor(new Interceptor\CacheableInterceptor($poolManager, $keyGenerator));
+        $cacheHandler->addInterceptor(new Interceptor\CacheUpdateInterceptor($poolManager, $keyGenerator));
         $cacheHandler->addInterceptor(new Interceptor\CacheEvictInterceptor($poolManager, $keyGenerator));
-        $cacheHandler->addInterceptor(new Interceptor\CacheableInterceptor($poolManager, $keyGenerator));
 
         return $cacheHandler;
     }
