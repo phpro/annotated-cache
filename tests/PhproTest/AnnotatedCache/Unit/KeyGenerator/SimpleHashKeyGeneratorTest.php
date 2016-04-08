@@ -5,6 +5,7 @@ namespace PhproTest\AnnotatedCache\Unit\KeyGenerator;
 
 use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
 use Phpro\AnnotatedCache\KeyGenerator\SimpleHashKeyGenerator;
+use PhproTest\AnnotatedCache\Objects\Foo;
 
 class SimpleHashKeyGeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -100,9 +101,4 @@ class SimpleHashKeyGeneratorTest extends \PHPUnit_Framework_TestCase
         $secondHash = $this->generator->generateKey(array('foo', 'bar', 'baz', 'poney'));
         $this->assertNotEquals($firstHash, $secondHash);
     }
-}
-
-class Foo
-{
-    public $bar = 'bar';
 }
