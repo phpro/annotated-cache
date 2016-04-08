@@ -1,6 +1,6 @@
 <?php
 
-namespace PhproTest\AnnotatedCache\Unit;
+namespace PhproTest\AnnotatedCache\Unit\Proxy;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Phpro\AnnotatedCache\Cache\CacheHandler;
@@ -116,5 +116,21 @@ class ProxyGeneratorTest extends \PHPUnit_Framework_TestCase
         $result = $proxy->triggerCache('value');
 
         $this->assertEquals('suffixvalue', $result);
+    }
+
+    /**
+     * @test
+     */
+    function it_does_not_interact_with_methods_that_dont_have_caching_annotations()
+    {
+        $instance = new ProxyInstance();
+        $this->cacheHandler->expects($this->never())->method('interceptProxyPrefix');
+        $this->cacheHandler->expects($this->never())->method('interceptProxySuffix');
+
+        /** @var ProxyInstance $proxy */
+        $proxy = $this->proxyGenerator->generate($instance);
+        $result = $proxy->passThrough('value');
+
+        $this->assertEquals('normal', $result);
     }
 }

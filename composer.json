@@ -16,13 +16,13 @@
         "cache/taggable-cache": "^0.4.0",
         "ocramius/proxy-manager": "^2.0",
         "psr/cache": "^1.0",
-        "symfony/expression-language": "^3.0"
+        "symfony/expression-language": "^3.0|^2.6"
     },
     "require-dev": {
-        "cache/integration-tests": "0.9",
-        "phpro/grumphp": "~0.8",
-        "phpunit/phpunit": "~5.3",
-        "squizlabs/php_codesniffer": "~2.6"
+        "cache/array-adapter": "^0.4",
+        "phpro/grumphp": "^0.8",
+        "phpunit/phpunit": "^5.3",
+        "squizlabs/php_codesniffer": "^2.6"
     },
     "autoload": {
         "psr-0": {

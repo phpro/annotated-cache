@@ -6,3 +6,7 @@ if (!$autoloader) {
 }
 
 require $autoloader;
+
+/** Register annotations: */
+use Doctrine\Common\Annotations\AnnotationRegistry;
+AnnotationRegistry::registerLoader('class_exists');

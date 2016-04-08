@@ -117,7 +117,7 @@ class CacheableInterceptorTest extends \PHPUnit_Framework_TestCase
     {
         $this->pool
             ->expects($this->once())
-            ->method('saveDeferred')
+            ->method('save')
             ->with($this->callback(function(CacheItem $item) {
                 return $item->getKey() === 'key'
                     && $item->get() === 'value'
@@ -137,7 +137,7 @@ class CacheableInterceptorTest extends \PHPUnit_Framework_TestCase
      */
     function it_does_not_save_empty_result_to_cache()
     {
-        $this->pool->expects($this->never())->method('saveDeferred');
+        $this->pool->expects($this->never())->method('save');
 
         $annotation = new Cacheable(['pools' => 'pool', 'tags' => 'tag', 'ttl' => 300]);
         $interception = new ProxyInterceptionSuffix(new \stdClass(), 'method', ['key1' => 'value1'], null);

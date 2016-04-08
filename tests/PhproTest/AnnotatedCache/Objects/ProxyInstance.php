@@ -16,5 +16,6 @@ class ProxyInstance
 
     public function passThrough()
     {
+        return 'normal';
     }
 }
