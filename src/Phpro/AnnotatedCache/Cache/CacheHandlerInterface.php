@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Phpro\AnnotatedCache\Cache;
 
 use Phpro\AnnotatedCache\Collection\AnnotationCollection;

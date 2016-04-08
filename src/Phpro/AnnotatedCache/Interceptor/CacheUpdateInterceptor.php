@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\Interceptor;
 
@@ -46,7 +47,7 @@ class CacheUpdateInterceptor implements InterceptorInterface
      *
      * @return bool
      */
-    public function canInterceptAnnotation(CacheAnnotationInterface $annotation)
+    public function canInterceptAnnotation(CacheAnnotationInterface $annotation) : bool
     {
         return $annotation instanceof CacheUpdate;
     }
@@ -91,7 +92,7 @@ class CacheUpdateInterceptor implements InterceptorInterface
      *
      * @return string
      */
-    private function calculateKey(CacheAnnotationInterface $annotation, InterceptionInterface $interception)
+    private function calculateKey(CacheAnnotationInterface $annotation, InterceptionInterface $interception) : string
     {
         return $this->keyGenerator->generateKey($interception->getParams(), $annotation->key);
     }

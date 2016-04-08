@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\Proxy;
 
@@ -55,9 +56,9 @@ class ProxyGenerator
     /**
      * @param mixed $instance
      *
-     * @return \ProxyManager\Proxy\AccessInterceptorInterface
+     * @return AccessInterceptorInterface
      */
-    public function generate($instance)
+    public function generate($instance) : AccessInterceptorInterface
     {
         $class = new ReflectionClass($instance);
         $proxy = $this->proxyFactory->createProxy($instance);

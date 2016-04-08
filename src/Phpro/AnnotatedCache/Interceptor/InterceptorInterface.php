@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\Interceptor;
 
@@ -19,7 +20,7 @@ interface InterceptorInterface
      *
      * @return bool
      */
-    public function canInterceptAnnotation(CacheAnnotationInterface $annotation);
+    public function canInterceptAnnotation(CacheAnnotationInterface $annotation) : bool;
 
     /**
      * @param CacheAnnotationInterface    $annotation

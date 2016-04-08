@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Phpro\AnnotatedCache\Cache;
 
 use Phpro\AnnotatedCache\Exception\RuntimeException;
@@ -16,7 +18,7 @@ interface PoolManagerInterface
      *
      * @return bool
      */
-    public function hasPool($name);
+    public function hasPool($name) : bool;
 
     /**
      * @param string $name
@@ -24,5 +26,5 @@ interface PoolManagerInterface
      * @return CacheItemPoolInterface
      * @throws RuntimeException
      */
-    public function getPool($name);
+    public function getPool($name) : CacheItemPoolInterface;
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache;
 
@@ -24,7 +25,7 @@ class Factory
     /**
      * @return ExpressionGenerator
      */
-    public static function createKeyGenerator()
+    public static function createKeyGenerator() : ExpressionGenerator
     {
         return new ExpressionGenerator(new SimpleHashKeyGenerator());
     }
@@ -32,7 +33,7 @@ class Factory
     /**
      * @return PoolManager
      */
-    public static function createPoolManager()
+    public static function createPoolManager() : PoolManager
     {
         return new PoolManager();
     }
@@ -43,8 +44,10 @@ class Factory
      *
      * @return CacheHandler
      */
-    public static function createCacheHandler(PoolManager $poolManager, KeyGeneratorInterface $keyGenerator = null)
-    {
+    public static function createCacheHandler(
+        PoolManager $poolManager,
+        KeyGeneratorInterface $keyGenerator = null
+    ) : CacheHandler {
         $keyGenerator = $keyGenerator ?? self::createKeyGenerator();
 
         $cacheHandler = new CacheHandler();
@@ -66,7 +69,7 @@ class Factory
         CacheHandlerInterface $cacheHandler,
         Configuration $proxyConfig = null,
         Reader $annotationReader = null
-    ) {
+    ) : ProxyGenerator {
         $proxyConfig = $proxyConfig ?? new Configuration();
         $annotationReader = $annotationReader ?? new AnnotationReader();
         $proxyFactory = new AccessInterceptorValueHolderFactory($proxyConfig);

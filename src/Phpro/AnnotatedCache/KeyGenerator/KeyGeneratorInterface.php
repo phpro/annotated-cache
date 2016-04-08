@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\KeyGenerator;
 
@@ -19,5 +20,5 @@ interface KeyGeneratorInterface
      * @return string
      * @throws UnsupportedKeyParameterException
      */
-    public function generateKey(array $parameters, $format = '');
+    public function generateKey(array $parameters, $format = '') : string;
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\Interception;
 
@@ -21,11 +22,11 @@ interface InterceptionInterface
      * Name of the called method
      * @return string
      */
-    public function getMethod();
+    public function getMethod() : string;
 
     /**
      * sorted array of parameters passed to the intercepted method, indexed by parameter name
      * @return array
      */
-    public function getParams();
+    public function getParams() : array;
 }

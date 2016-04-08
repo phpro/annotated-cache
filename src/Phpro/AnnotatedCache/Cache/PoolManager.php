@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\Cache;
 
@@ -41,7 +42,7 @@ class PoolManager implements PoolManagerInterface
      *
      * @return bool
      */
-    public function hasPool($name)
+    public function hasPool($name) : bool
     {
         return $this->pools->containsKey($name);
     }
@@ -52,7 +53,7 @@ class PoolManager implements PoolManagerInterface
      * @return CacheItemPoolInterface
      * @throws RuntimeException
      */
-    public function getPool($name)
+    public function getPool($name) : CacheItemPoolInterface
     {
         if (!$this->hasPool($name)) {
             throw new RuntimeException(sprintf('Could not find cache pool with name %s.', $name));

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\KeyGenerator;
 
@@ -17,7 +18,7 @@ class SimpleHashKeyGenerator implements KeyGeneratorInterface
      * @return mixed
      * @throws UnsupportedKeyParameterException
      */
-    public function generateKey(array $parameters, $format = '')
+    public function generateKey(array $parameters, $format = '') : string
     {
         $hash = 1234;
         foreach ($parameters as $key => $value) {

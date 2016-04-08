@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\KeyGenerator;
 
@@ -39,7 +40,7 @@ class ExpressionGenerator implements KeyGeneratorInterface
      *
      * @return string
      */
-    public function generateKey(array $parameters, $format = '')
+    public function generateKey(array $parameters, $format = '') : string
     {
         if ($format && $result = $this->language->evaluate($format, $parameters)) {
             $parameters = ['expression' => $result];

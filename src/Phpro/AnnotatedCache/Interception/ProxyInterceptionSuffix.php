@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\Interception;
 
@@ -51,7 +52,7 @@ final class ProxyInterceptionSuffix implements InterceptionSuffixInterface
     /**
      * @return string
      */
-    public function getMethod()
+    public function getMethod() : string
     {
         return $this->method;
     }
@@ -59,7 +60,7 @@ final class ProxyInterceptionSuffix implements InterceptionSuffixInterface
     /**
      * @return array
      */
-    public function getParams()
+    public function getParams() : array
     {
         return $this->params;
     }
