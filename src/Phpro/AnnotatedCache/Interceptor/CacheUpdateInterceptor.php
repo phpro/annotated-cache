@@ -6,6 +6,7 @@ use Cache\Adapter\Common\CacheItem;
 use Phpro\AnnotatedCache\Annotation\CacheAnnotationInterface;
 use Phpro\AnnotatedCache\Annotation\CacheUpdate;
 use Phpro\AnnotatedCache\Cache\PoolManagerInterface;
+use Phpro\AnnotatedCache\Interception\InterceptionInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionPrefixInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionSuffixInterface;
 use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
@@ -65,6 +66,10 @@ class CacheUpdateInterceptor implements InterceptorInterface
      */
     public function interceptSuffix(CacheAnnotationInterface $annotation, InterceptionSuffixInterface $interception)
     {
+        if (!$interception->getReturnValue()) {
+            return;
+        }
+
         $key = $this->calculateKey($annotation, $interception);
         $item = new CacheItem($key);
         $item->set($interception->getReturnValue());

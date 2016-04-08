@@ -15,7 +15,7 @@ abstract class CacheAnnotation implements CacheAnnotationInterface
     /**
      * @var array|string
      */
-    public $pools;
+    public $pools = [];
 
     /**
      * @var string
@@ -25,7 +25,7 @@ abstract class CacheAnnotation implements CacheAnnotationInterface
     /**
      * @var array|string
      */
-    public $tags;
+    public $tags = [];
 
     public function __construct(array $values)
     {

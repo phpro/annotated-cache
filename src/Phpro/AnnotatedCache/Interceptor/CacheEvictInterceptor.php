@@ -6,6 +6,7 @@ use Cache\Taggable\TaggablePoolInterface;
 use Phpro\AnnotatedCache\Annotation\CacheAnnotationInterface;
 use Phpro\AnnotatedCache\Annotation\CacheEvict;
 use Phpro\AnnotatedCache\Cache\PoolManagerInterface;
+use Phpro\AnnotatedCache\Interception\InterceptionInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionPrefixInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionSuffixInterface;
 use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
@@ -90,7 +91,7 @@ class CacheEvictInterceptor implements InterceptorInterface
      */
     private function evictKey(CacheItemPoolInterface $pool, $key)
     {
-        if (!$pool->hasItem($key)) {
+        if (!$key || !$pool->hasItem($key)) {
             return;
         }
 
