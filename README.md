@@ -1,7 +1,7 @@
 [![Build status](https://api.travis-ci.org/phpro/annotated-cache.svg)](http://travis-ci.org/phpro/annotated-cache)
 [![Insight](https://img.shields.io/sensiolabs/i/a270b460-11f9-482e-851f-abf37b48fec1.svg)](https://insight.sensiolabs.com/projects/a270b460-11f9-482e-851f-abf37b48fec1)
-[![Installs](https://img.shields.io/packagist/dt/phpro/grumphp.svg)](https://packagist.org/packages/phpro/annotated-cache/stats)
-[![Packagist](https://img.shields.io/packagist/v/phpro/grumphp.svg)](https://packagist.org/packages/phpro/annotated-cache)
+[![Installs](https://img.shields.io/packagist/dt/phpro/annotated-cache.svg)](https://packagist.org/packages/phpro/annotated-cache/stats)
+[![Packagist](https://img.shields.io/packagist/v/phpro/annotated-cache.svg)](https://packagist.org/packages/phpro/annotated-cache)
 
 # Cache Annotations
 
