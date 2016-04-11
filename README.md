@@ -223,6 +223,6 @@ This package is based on the [TbbcCacheBundle](https://github.com/TheBigBrainsCo
  The big difference is that this package can be used in any PHP application.
 
 Big ups to the 
- [Doctrine project](http://www.doctrine-project.org),
+ [Doctrine](http://www.doctrine-project.org),
  [proxy-manager](http://ocramius.github.io/ProxyManager/) and 
  [php-cache](http://www.php-cache.com/en/latest/) project for providing the tools that this package needs!
