@@ -198,6 +198,13 @@ For key generation, [Symfony Expression Language](http://symfony.com/doc/current
 
 The Expression Language allow you to retrieve any arguments passed to your method and use it to generate the cache key.
 
+#### Tags
+
+It is possible to add one or multiple tags to a caching entry.
+ Since this is not a default feature in PSR-6, you will have to implement the 
+ [cache/taggable-cache](http://www.php-cache.com/en/latest/tagging/)
+ `TaggablePoolInterface` on your cache pool.
+
 
 ## About
 
