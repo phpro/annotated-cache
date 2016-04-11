@@ -22,7 +22,7 @@ class SimpleHashKeyGenerator implements KeyGeneratorInterface
     {
         $hash = 1234;
         foreach ($parameters as $key => $value) {
-            if (null == $value) {
+            if (null === $value) {
                 $paramHash = 5678;
             } elseif (is_scalar($value)) {
                 $paramHash = sha1($value);

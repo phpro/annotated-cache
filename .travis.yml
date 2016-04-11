@@ -9,7 +9,6 @@ matrix:
     - php: 7.0
     - php: 7.0
       env: DEPENDENCIES='low'
-    - php: hhvm
   fast_finish: true
 
 before_install:
@@ -17,8 +16,8 @@ before_install:
   - composer global require hirak/prestissimo
 
 install:
-  - if [ "$DEPENDENCIES" != "low" ]; then travis_retry composer update --no-progress --profile --prefer-dist --no-scripts --no-interaction; fi;
-  - if [ "$DEPENDENCIES" == "low" ]; then travis_retry composer update --no-progress --profile --prefer-lowest --no-scripts --no-interaction; fi;
+  - if [ "$DEPENDENCIES" != "low" ]; then travis_retry composer update --no-progress --profile --prefer-dist --no-interaction; fi;
+  - if [ "$DEPENDENCIES" == "low" ]; then travis_retry composer update --no-progress --profile --prefer-lowest --no-interaction; fi;
 
 script:
    - ./vendor/bin/grumphp run
