@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\KeyGenerator;
 
-use Phpro\AnnotatedCache\Exception\UnsupportedKeyParameterException;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**
