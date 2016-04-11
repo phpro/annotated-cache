@@ -215,7 +215,7 @@ Please take a look at our rules before [contributing your code](CONTRIBUTING.md)
 
 ### License
 
-Annotated-cache is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+Annotated-cache is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details
 
 ## Credits
 This package is based on the [TbbcCacheBundle](https://github.com/TheBigBrainsCompany/TbbcCacheBundle). 
