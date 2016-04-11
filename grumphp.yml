@@ -7,3 +7,5 @@ parameters:
             standard: PSR2
             ignore_patterns:
                 - tests/*.php
+        composer:
+            no_check_lock: true

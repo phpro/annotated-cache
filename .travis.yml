@@ -1,0 +1,24 @@
+language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  include:
+    - php: 7.0
+    - php: 7.0
+      env: DEPENDENCIES='low'
+    - php: hhvm
+  fast_finish: true
+
+before_install:
+  - composer selfupdate
+  - composer global require hirak/prestissimo
+
+install:
+  - if [ "$DEPENDENCIES" != "low" ]; then travis_retry composer update --no-progress --profile --prefer-dist --no-scripts --no-interaction; fi;
+  - if [ "$DEPENDENCIES" == "low" ]; then travis_retry composer update --no-progress --profile --prefer-lowest --no-scripts --no-interaction; fi;
+
+script:
+   - ./bin/grumphp run
