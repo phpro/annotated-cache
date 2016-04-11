@@ -37,7 +37,7 @@ We made it as easy as possible to get started with the cache manager. You will n
 
 - `PoolManager`: contains one or multiple PSR-6 cache pools.
 - `CacheHandler`: contains the PoolManager and the logic for interacting with the cache pool.
-- `ProxyGenerator`: wraps your service with an (Access Interceptor Value Holder)[https://ocramius.github.io/ProxyManager/docs/access-interceptor-value-holder.html]
+- `ProxyGenerator`: wraps your service with an [Access Interceptor Value Holder](https://ocramius.github.io/ProxyManager/docs/access-interceptor-value-holder.html)
 
 
 ### Example Service
@@ -216,5 +216,5 @@ This package is based on the [TbbcCacheBundle](https://github.com/TheBigBrainsCo
  The big difference is that this package can be used in any PHP application.
 
 Big ups to the 
- (http://ocramius.github.io/ProxyManager/)[proxy-manager] and 
- (http://www.php-cache.com/en/latest/)[php-cache] project for providing the tools that this package needs!
+ [proxy-manager](http://ocramius.github.io/ProxyManager/) and 
+ [php-cache](http://www.php-cache.com/en/latest/) project for providing the tools that this package needs!
