@@ -1,3 +1,8 @@
+[![Build status](https://api.travis-ci.org/phpro/annotated-cache.svg)](http://travis-ci.org/phpro/annotated-cache)
+[![Insight](https://img.shields.io/sensiolabs/i/a270b460-11f9-482e-851f-abf37b48fec1.svg)](https://insight.sensiolabs.com/projects/a270b460-11f9-482e-851f-abf37b48fec1)
+[![Installs](https://img.shields.io/packagist/dt/phpro/grumphp.svg)](https://packagist.org/packages/phpro/annotated-cache/stats)
+[![Packagist](https://img.shields.io/packagist/v/phpro/grumphp.svg)](https://packagist.org/packages/phpro/annotated-cache)
+
 # Cache Annotations
 
 .... PSR 6 .... ANNOTATIONS ....
