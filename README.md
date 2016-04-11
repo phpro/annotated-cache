@@ -5,20 +5,22 @@
 
 # Cache Annotations
 
-.... PSR 6 .... ANNOTATIONS ....
-
-
+Stop worrying about caching, use annotations instead. 
+ This PHP library makes it possible to add annotations to your services and handles caching for you.
+ You can use any [PSR-6](http://www.php-fig.org/psr/psr-6/) caching implementation as a caching back-end.
+ 
 ## Installation
 
 ```sh
 composer require phpro/annotated-cache
 ```
 
-We suggest using php-cache to make it possible to add tags to your cache items.
+We suggest using [php-cache](http://www.php-cache.com/en/latest/) to make it possible to add tags to your cache items.
 
 
 ## Usage
 
+### Example usage:
 ```php
 use Phpro\AnnotatedCache\Factory;
 
@@ -28,9 +30,17 @@ $poolManager->addPool('products', $psr6CachePool);
 $cacheHandler = Factory::createCacheHandler($poolManager);
 $proxyGenerator = Factory::createProxyGenerator($poolManager);
 
-$myService = $proxyGenerator->generate($myService);
+$myService = $proxyGenerator->generate(new My\Service());
 ```
 
+We made it as easy as possible to get started with the cache manager. You will need 3 services:
+
+- `PoolManager`: contains one or multiple PSR-6 cache pools.
+- `CacheHandler`: contains the PoolManager and the logic for interacting with the cache pool.
+- `ProxyGenerator`: wraps your service with an (Access Interceptor Value Holder)[https://ocramius.github.io/ProxyManager/docs/access-interceptor-value-holder.html]
+
+
+### Example Service
 ```php
 <?php
 
@@ -44,7 +54,7 @@ class Service
 {
 
     /**
-     * @Cacheable(pools="products", key="sku", tags="product-detail")
+     * @Cacheable(pools="products", key="sku", tags="product-detail", ttl=300)
      */
     public function getProduct($sku, $type = 'book')
     {
@@ -63,7 +73,7 @@ class Service
     }
 
     /**
-     * @CacheUpdate(pools="products", key="product.getSku()", tags="product-detail")
+     * @CacheUpdate(pools="products", key="product.getSku()", tags="product-detail", ttl=300)
      */
     public function updateProduct(Product $product)
     {
@@ -72,3 +82,139 @@ class Service
     }
 }
 ```
+
+### Annotations
+
+The bundle provides the following annotations:
+* [@Cacheable](#cacheable-annotation)
+* [@CacheEvict](#cacheevict-annotation)
+* [@CacheUpdate](#cacheupdate-annotation)
+
+#### @Cacheable annotation
+
+@Cacheable annotation is used to automatically store the result of a method into the cache.
+
+When a method demarcated with the @Cacheable annotation is called, the bundle checks if an entry exists in the cache
+before executing the method. If it finds one, the cache result is returned without having to actually execute the method.
+
+If no cache entry is found, the method is executed and the bundle automatically stores its result into the cache.
+
+```PHP
+<?php
+
+namespace My\Manager;
+
+use My\Model\Product;
+
+use Phpro\AnnotatedCache\Annotation\Cacheable;
+
+class ProductManager
+{
+    /**
+     * @Cacheable(pools="products", key="sku", tags="book-detail", ttl=500)
+     */
+    public function getProduct($sku, $type = 'book')
+    {
+        // fetch a product from a repository or whatever
+        $product = $this->productRepository->getByType($sku, 'book');
+
+        return $product;
+    }
+}
+```
+
+#### @CacheEvict annotation
+
+@CacheEvict annotation allows methods to trigger cache population or cache eviction.
+
+When a method is demarcated with @CacheEvict annotation, the bundle will execute the method and then will automatically
+try to delete the cache entry with the provided key and the provided tags.
+
+```PHP
+<?php
+
+namespace My\Manager;
+
+use My\Model\Product;
+
+use Phpro\AnnotatedCache\Annotation\CacheEvict;
+
+class ProductManager
+{
+    /**
+     * @CacheEvict(pools="products", key="product.getSku()", tags="book-list")
+     */
+    public function removeProduct(Product $product)
+    {
+        // saving product ...
+    }
+}
+```
+
+#### @CacheUpdate annotation
+
+@CacheUpdate annotation is useful for cases where the cache needs to be updated without interfering with the method
+execution.
+
+When a method is demarcated with @CacheUpdate annotation, the bundle will always execute the method and then will
+automatically try to update the cache entry with the method result.
+
+```php
+<?php
+
+namespace My\Manager;
+
+use My\Model\Product;
+
+use Phpro\AnnotatedCache\Annotation\CacheUpdate;
+
+class ProductManager
+{
+    /**
+     * @CacheUpdate(pools="products", key="product.getSku()", tags="product-detail", ttl=300)
+     */
+    public function updateProduct(Product $product)
+    {
+        // saving product....
+
+        return $product;
+    }
+}
+```
+
+#### Expression Language
+
+For key generation, [Symfony Expression Language](http://symfony.com/doc/current/components/expression_language/index.html) can be used.
+
+```php
+/**
+ * @CacheUpdate(pools="products", key="product.getSku()")
+ */
+ public function updateProduct(Product $product)
+ {
+    // do something
+ }
+ ```
+
+The Expression Language allow you to retrieve any arguments passed to your method and use it to generate the cache key.
+
+
+## About
+
+### Submitting bugs and feature requests
+
+Bugs and feature request are tracked on [GitHub](https://github.com/phpro/annotated-cache/issues).
+Please take a look at our rules before [contributing your code](CONTRIBUTING.md).
+
+### License
+
+Annotated-cache is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## Credits
+This package is based on the [TbbcCacheBundle](https://github.com/TheBigBrainsCompany/TbbcCacheBundle). 
+ It uses exactly the same annotations. 
+ The big difference is that this package can be used in any PHP application.
+
+Big ups to the 
+ (http://ocramius.github.io/ProxyManager/)[proxy-manager] and 
+ (http://www.php-cache.com/en/latest/)[php-cache] project for providing the tools that this package needs!
