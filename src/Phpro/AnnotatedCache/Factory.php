@@ -8,7 +8,6 @@ use Doctrine\Common\Annotations\Reader;
 use Phpro\AnnotatedCache\Cache\CacheHandler;
 use Phpro\AnnotatedCache\Cache\CacheHandlerInterface;
 use Phpro\AnnotatedCache\Cache\PoolManager;
-use Phpro\AnnotatedCache\Collector\MemoryResultCollector;
 use Phpro\AnnotatedCache\Collector\NullResultCollector;
 use Phpro\AnnotatedCache\Collector\ResultCollectorInterface;
 use Phpro\AnnotatedCache\KeyGenerator\ExpressionGenerator;
