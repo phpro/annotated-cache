@@ -6,6 +6,7 @@ namespace Phpro\AnnotatedCache\Interceptor;
 use Phpro\AnnotatedCache\Annotation\CacheAnnotationInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionPrefixInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionSuffixInterface;
+use Phpro\AnnotatedCache\Interceptor\Result\ResultInterface;
 
 /**
  * Interface InterceptorInterface
@@ -26,15 +27,21 @@ interface InterceptorInterface
      * @param CacheAnnotationInterface    $annotation
      * @param InterceptionPrefixInterface $interception
      *
-     * @return mixed
+     * @return ResultInterface
      */
-    public function interceptPrefix(CacheAnnotationInterface $annotation, InterceptionPrefixInterface $interception);
+    public function interceptPrefix(
+        CacheAnnotationInterface $annotation,
+        InterceptionPrefixInterface $interception
+    ) : ResultInterface;
 
     /**
      * @param CacheAnnotationInterface    $annotation
      * @param InterceptionSuffixInterface $interception
      *
-     * @return mixed
+     * @return ResultInterface
      */
-    public function interceptSuffix(CacheAnnotationInterface $annotation, InterceptionSuffixInterface $interception);
+    public function interceptSuffix(
+        CacheAnnotationInterface $annotation,
+        InterceptionSuffixInterface $interception
+    ) : ResultInterface;
 }

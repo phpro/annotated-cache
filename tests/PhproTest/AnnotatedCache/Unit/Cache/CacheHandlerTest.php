@@ -6,9 +6,12 @@ use Phpro\AnnotatedCache\Annotation\CacheAnnotationInterface;
 use Phpro\AnnotatedCache\Cache\CacheHandler;
 use Phpro\AnnotatedCache\Cache\CacheHandlerInterface;
 use Phpro\AnnotatedCache\Collection\AnnotationCollection;
+use Phpro\AnnotatedCache\Collector\NullResultCollector;
+use Phpro\AnnotatedCache\Collector\ResultCollectorInterface;
 use Phpro\AnnotatedCache\Interception\ProxyInterceptionPrefix;
 use Phpro\AnnotatedCache\Interception\ProxyInterceptionSuffix;
 use Phpro\AnnotatedCache\Interceptor\InterceptorInterface;
+use Phpro\AnnotatedCache\Interceptor\Result\HitResult;
 
 /**
  * Class CacheHandlerTest
@@ -29,6 +32,11 @@ class CacheHandlerTest extends \PHPUnit_Framework_TestCase
     private $interceptor;
 
     /**
+     * @var ResultCollectorInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $resultCollector;
+
+    /**
      * @var CacheAnnotationInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $annotation;
@@ -37,7 +45,9 @@ class CacheHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $this->annotation = $this->getMockBuilder(CacheAnnotationInterface::class)->getMock();
         $this->interceptor = $this->getMockBuilder(InterceptorInterface::class)->getMock();
-        $this->cacheHandler = new CacheHandler();
+        $this->resultCollector = $this->getMockBuilder(ResultCollectorInterface::class)->getMock();
+
+        $this->cacheHandler = new CacheHandler($this->resultCollector);
         $this->cacheHandler->addInterceptor($this->interceptor);
     }
 
@@ -55,6 +65,7 @@ class CacheHandlerTest extends \PHPUnit_Framework_TestCase
     function it_intercepts_proxy_prefix()
     {
         $interception = new ProxyInterceptionPrefix(new \stdClass, 'someMethod', ['key1' => 'param1']);
+        $result = new HitResult($interception, 'key', ['pool'], 'somevalue');
 
         $this->interceptor
             ->method('canInterceptAnnotation')
@@ -67,7 +78,9 @@ class CacheHandlerTest extends \PHPUnit_Framework_TestCase
                 $this->annotation,
                 $interception
             )
-            ->willReturn('somevalue');
+            ->willReturn($result);
+
+        $this->resultCollector->expects($this->once())->method('collect')->with($result);
 
         $result = $this->cacheHandler->interceptProxyPrefix(
             new AnnotationCollection([$this->annotation]),
@@ -82,6 +95,7 @@ class CacheHandlerTest extends \PHPUnit_Framework_TestCase
     function it_intercepts_proxy_suffix()
     {
         $interception = new ProxyInterceptionSuffix(new \stdClass, 'someMethod', ['key1' => 'param1'], 'returnValue');
+        $result = new HitResult($interception, 'key', ['pool'], 'someNewValue');
 
         $this->interceptor
             ->method('canInterceptAnnotation')
@@ -94,7 +108,9 @@ class CacheHandlerTest extends \PHPUnit_Framework_TestCase
                 $this->annotation,
                 $interception
             )
-            ->willReturn('someNewValue');
+            ->willReturn($result);
+
+        $this->resultCollector->expects($this->once())->method('collect')->with($result);
 
         $result = $this->cacheHandler->interceptProxySuffix(
             new AnnotationCollection([$this->annotation]),

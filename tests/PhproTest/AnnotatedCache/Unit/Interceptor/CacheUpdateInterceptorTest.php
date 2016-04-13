@@ -11,6 +11,8 @@ use Phpro\AnnotatedCache\Interception\ProxyInterceptionPrefix;
 use Phpro\AnnotatedCache\Interception\ProxyInterceptionSuffix;
 use Phpro\AnnotatedCache\Interceptor\CacheUpdateInterceptor;
 use Phpro\AnnotatedCache\Interceptor\InterceptorInterface;
+use Phpro\AnnotatedCache\Interceptor\Result\EmptyResult;
+use Phpro\AnnotatedCache\Interceptor\Result\UpdateResult;
 use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
 
 class CacheUpdateInterceptorTest extends \PHPUnit_Framework_TestCase
@@ -73,7 +75,7 @@ class CacheUpdateInterceptorTest extends \PHPUnit_Framework_TestCase
         $interception = new ProxyInterceptionPrefix(new \stdClass(), 'method', ['key1' => 'value1']);
         $result = $this->interceptor->interceptPrefix($annotation, $interception);
 
-        $this->assertNull($result);
+        $this->assertInstanceOf(EmptyResult::class, $result);
     }
 
     /**
@@ -95,7 +97,7 @@ class CacheUpdateInterceptorTest extends \PHPUnit_Framework_TestCase
         $interception = new ProxyInterceptionSuffix(new \stdClass(), 'method', ['key1' => 'value1'], 'value');
         $result = $this->interceptor->interceptSuffix($annotation, $interception);
 
-        $this->assertNull($result);
+        $this->assertInstanceOf(UpdateResult::class, $result);
     }
 
     /**
@@ -109,6 +111,6 @@ class CacheUpdateInterceptorTest extends \PHPUnit_Framework_TestCase
         $interception = new ProxyInterceptionSuffix(new \stdClass(), 'method', ['key1' => 'value1'], null);
         $result = $this->interceptor->interceptSuffix($annotation, $interception);
 
-        $this->assertNull($result);
+        $this->assertInstanceOf(EmptyResult::class, $result);
     }
 }

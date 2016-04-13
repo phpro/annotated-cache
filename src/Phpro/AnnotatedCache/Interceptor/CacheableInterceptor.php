@@ -11,6 +11,10 @@ use Phpro\AnnotatedCache\Exception\RuntimeException;
 use Phpro\AnnotatedCache\Interception\InterceptionInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionPrefixInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionSuffixInterface;
+use Phpro\AnnotatedCache\Interceptor\Result\EmptyResult;
+use Phpro\AnnotatedCache\Interceptor\Result\HitResult;
+use Phpro\AnnotatedCache\Interceptor\Result\MissResult;
+use Phpro\AnnotatedCache\Interceptor\Result\ResultInterface;
 use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
 
 /**
@@ -57,30 +61,36 @@ class CacheableInterceptor implements InterceptorInterface
      * @param Cacheable                   $annotation
      * @param InterceptionPrefixInterface $interception
      *
-     * @return mixed
+     * @return ResultInterface
      */
-    public function interceptPrefix(CacheAnnotationInterface $annotation, InterceptionPrefixInterface $interception)
-    {
+    public function interceptPrefix(
+        CacheAnnotationInterface $annotation,
+        InterceptionPrefixInterface $interception
+    ) : ResultInterface {
         $key = $this->calculateKey($annotation, $interception);
         foreach ($annotation->pools as $poolName) {
             if (!$cacheItem = $this->locateCachedItem($poolName, $key)) {
                 continue;
             }
-
-            return $cacheItem->get();
+            
+            return new HitResult($interception, $key, [$poolName], $cacheItem->get());
         }
         
-        return null;
+        return new EmptyResult();
     }
 
     /**
-     * @param Cacheable         $annotation
+     * @param Cacheable                   $annotation
      * @param InterceptionSuffixInterface $interception
+     *
+     * @return ResultInterface
      */
-    public function interceptSuffix(CacheAnnotationInterface $annotation, InterceptionSuffixInterface $interception)
-    {
+    public function interceptSuffix(
+        CacheAnnotationInterface $annotation,
+        InterceptionSuffixInterface $interception
+    ) : ResultInterface {
         if (!$interception->getReturnValue()) {
-            return;
+            return new EmptyResult();
         }
 
         $key = $this->calculateKey($annotation, $interception);
@@ -97,6 +107,8 @@ class CacheableInterceptor implements InterceptorInterface
             $pool = $this->poolManager->getPool($poolName);
             $pool->save($item);
         }
+        
+        return new MissResult($interception, $key, $annotation->pools);
     }
 
     /**

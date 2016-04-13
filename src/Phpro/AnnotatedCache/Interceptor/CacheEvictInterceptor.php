@@ -10,6 +10,9 @@ use Phpro\AnnotatedCache\Cache\PoolManagerInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionPrefixInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionSuffixInterface;
+use Phpro\AnnotatedCache\Interceptor\Result\EmptyResult;
+use Phpro\AnnotatedCache\Interceptor\Result\EvictResult;
+use Phpro\AnnotatedCache\Interceptor\Result\ResultInterface;
 use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
@@ -56,23 +59,34 @@ class CacheEvictInterceptor implements InterceptorInterface
     /**
      * @param CacheEvict                  $annotation
      * @param InterceptionPrefixInterface $interception
+     *
+     * @return Result\ResultInterface
      */
-    public function interceptPrefix(CacheAnnotationInterface $annotation, InterceptionPrefixInterface $interception)
-    {
-        return null;
+    public function interceptPrefix(
+        CacheAnnotationInterface $annotation,
+        InterceptionPrefixInterface $interception
+    ) : ResultInterface {
+        return new EmptyResult();
     }
 
     /**
      * @param CacheEvict                  $annotation
      * @param InterceptionSuffixInterface $interception
+     *
+     * @return Result\ResultInterface
      */
-    public function interceptSuffix(CacheAnnotationInterface $annotation, InterceptionSuffixInterface $interception)
-    {
+    public function interceptSuffix(
+        CacheAnnotationInterface $annotation,
+        InterceptionSuffixInterface $interception
+    ) : ResultInterface {
+        $key = $this->calculateKey($annotation, $interception);
         foreach ($annotation->pools as $poolName) {
             $pool = $this->poolManager->getPool($poolName);
-            $this->evictKey($pool, $this->calculateKey($annotation, $interception));
+            $this->evictKey($pool, $key);
             $this->evictTags($pool, $annotation->tags);
         }
+
+        return new EvictResult($interception, $key, $annotation->pools, $annotation->tags);
     }
 
     /**

@@ -27,7 +27,7 @@ class ProxyGeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->cacheHandler = $this->getMockBuilder(CacheHandler::class)->getMock();
+        $this->cacheHandler = $this->getMockBuilder(CacheHandler::class)->disableOriginalConstructor()->getMock();
         $this->proxyGenerator = new ProxyGenerator(
             new AccessInterceptorValueHolderFactory(),
             new AnnotationReader(),

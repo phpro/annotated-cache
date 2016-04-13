@@ -10,6 +10,9 @@ use Phpro\AnnotatedCache\Cache\PoolManagerInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionPrefixInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionSuffixInterface;
+use Phpro\AnnotatedCache\Interceptor\Result\EmptyResult;
+use Phpro\AnnotatedCache\Interceptor\Result\ResultInterface;
+use Phpro\AnnotatedCache\Interceptor\Result\UpdateResult;
 use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
 
 /**
@@ -55,20 +58,28 @@ class CacheUpdateInterceptor implements InterceptorInterface
     /**
      * @param CacheUpdate                 $annotation
      * @param InterceptionPrefixInterface $interception
+     *
+     * @return ResultInterface
      */
-    public function interceptPrefix(CacheAnnotationInterface $annotation, InterceptionPrefixInterface $interception)
-    {
-        return null;
+    public function interceptPrefix(
+        CacheAnnotationInterface $annotation,
+        InterceptionPrefixInterface $interception
+    ) : ResultInterface {
+        return new EmptyResult();
     }
 
     /**
      * @param CacheUpdate                 $annotation
      * @param InterceptionSuffixInterface $interception
+     *
+     * @return ResultInterface
      */
-    public function interceptSuffix(CacheAnnotationInterface $annotation, InterceptionSuffixInterface $interception)
-    {
+    public function interceptSuffix(
+        CacheAnnotationInterface $annotation,
+        InterceptionSuffixInterface $interception
+    ) : ResultInterface {
         if (!$interception->getReturnValue()) {
-            return;
+            return new EmptyResult();
         }
 
         $key = $this->calculateKey($annotation, $interception);
@@ -84,6 +95,8 @@ class CacheUpdateInterceptor implements InterceptorInterface
             $pool = $this->poolManager->getPool($poolName);
             $pool->save($item);
         }
+
+        return new UpdateResult($interception, $key, $annotation->pools);
     }
 
     /**

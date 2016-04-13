@@ -206,6 +206,51 @@ It is possible to add one or multiple tags to a caching entry.
  `TaggablePoolInterface` on your cache pool.
 
 
+### Handling Results
+
+It is possible to add a `ResultCollectorInterface` to the `CacheHandler`.
+ This way you can provide your application with feedback about what happened with the annotations.
+ By default, a dummy collector will be used that doesn't collect anything.
+ 
+```php
+
+use Phpro\AnnotatedCache\Factory;
+use Phpro\AnnotatedCache\Collector\MemoryResultCollector;
+
+// Instantiate pool
+
+$resultCollector = new MemoryResultCollector();
+$cacheHandler = Factory::createCacheHandler($poolManager, $resultCollector);
+
+// Instantiate proxy service ...
+
+$myService->fetchSomethingCached();
+$results = $resultCollector->getResults();
+
+```
+
+The results will be an instance of the `ResultCollection` which will contain a series of `ResultInterface` objects.
+Possible results:
+
+- EmptyResult (These once are filtered out by the collector)
+- HitResult
+- MissResult
+- EvictResult
+- UpdateResult
+
+### Writing your own annotations
+
+It is pretty easy to write your own annotations and let the `CacheHandler` intercept your own annotation.
+The only thing you will need to do is write your own 
+implementation of the `InterceptorInterface` and a custom annotation.
+Next you can register this custom interceptor on the cache handler and do your own thing.
+
+```php
+$cacheHandler = Factory::createCacheHandler($poolManager);
+$cacheHandler->addInterceptor($myCustomInterceptor)
+```
+
+
 ## About
 
 ### Submitting bugs and feature requests

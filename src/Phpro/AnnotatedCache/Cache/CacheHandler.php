@@ -7,10 +7,12 @@ use Closure;
 use Doctrine\Common\Collections\ArrayCollection;
 use Phpro\AnnotatedCache\Annotation\CacheAnnotationInterface;
 use Phpro\AnnotatedCache\Collection\AnnotationCollection;
+use Phpro\AnnotatedCache\Collector\ResultCollectorInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionPrefixInterface;
 use Phpro\AnnotatedCache\Interception\InterceptionSuffixInterface;
 use Phpro\AnnotatedCache\Interceptor\InterceptorInterface;
+use Phpro\AnnotatedCache\Interceptor\Result\ContentAwareResultInterface;
 
 /**
  * Class CacheHandler
@@ -25,11 +27,19 @@ class CacheHandler implements CacheHandlerInterface
     private $interceptors;
 
     /**
-     * Interceptor constructor.
+     * @var ResultCollectorInterface
      */
-    public function __construct()
+    private $resultCollector;
+
+    /**
+     * Interceptor constructor.
+     *
+     * @param ResultCollectorInterface $resultCollector
+     */
+    public function __construct(ResultCollectorInterface $resultCollector)
     {
         $this->interceptors = new ArrayCollection();
+        $this->resultCollector = $resultCollector;
     }
 
     /**
@@ -93,8 +103,10 @@ class CacheHandler implements CacheHandlerInterface
                 }
 
                 $result = $callback($interceptor, $annotation, $interception);
-                if ($result) {
-                    return $result;
+                $this->resultCollector->collect($result);
+
+                if ($result instanceof ContentAwareResultInterface && $result->hasContent()) {
+                    return $result->getContent();
                 }
             }
         }
