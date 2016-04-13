@@ -17,6 +17,9 @@ composer require phpro/annotated-cache
 
 We suggest using [php-cache](http://www.php-cache.com/en/latest/) to make it possible to add tags to your cache items.
 
+## Bridges
+
+- [Symfony](https://github.com/phpro/annotated-cache-bundle)
 
 ## Usage
 
