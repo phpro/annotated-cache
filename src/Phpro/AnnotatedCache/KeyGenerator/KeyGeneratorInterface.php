@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\KeyGenerator;
 
-use Doctrine\Common\Annotations\Annotation;
 use Phpro\AnnotatedCache\Annotation\CacheAnnotationInterface;
 use Phpro\AnnotatedCache\Exception\UnsupportedKeyParameterException;
 use Phpro\AnnotatedCache\Interception\InterceptionInterface;
