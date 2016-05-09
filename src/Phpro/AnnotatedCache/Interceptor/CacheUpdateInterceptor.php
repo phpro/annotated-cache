@@ -107,6 +107,6 @@ class CacheUpdateInterceptor implements InterceptorInterface
      */
     private function calculateKey(CacheAnnotationInterface $annotation, InterceptionInterface $interception) : string
     {
-        return $this->keyGenerator->generateKey($interception->getParams(), $annotation->key);
+        return $this->keyGenerator->generateKey($interception, $annotation);
     }
 }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\KeyGenerator;
 
+use Phpro\AnnotatedCache\Annotation\CacheAnnotationInterface;
+use Phpro\AnnotatedCache\Interception\InterceptionInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**
@@ -33,18 +35,20 @@ class ExpressionGenerator implements KeyGeneratorInterface
     }
 
     /**
-     * @param array  $parameters
-     *
-     * @param string $format
+     * @param InterceptionInterface    $interception
+     * @param CacheAnnotationInterface $annotation
      *
      * @return string
+     * @throws \Phpro\AnnotatedCache\Exception\UnsupportedKeyParameterException
      */
-    public function generateKey(array $parameters, $format = '') : string
+    public function generateKey(InterceptionInterface $interception, CacheAnnotationInterface $annotation) : string
     {
+        $format = property_exists($annotation, 'key') ? $annotation->key : '';
+        $parameters = array_merge($interception->getParams(), ['interception' => $interception]);
         if ($format && $result = $this->language->evaluate($format, $parameters)) {
-            $parameters = ['expression' => $result];
+            return sha1(serialize($result));
         }
 
-        return $this->keyGenerator->generateKey($parameters, $format);
+        return $this->keyGenerator->generateKey($interception, $annotation);
     }
 }

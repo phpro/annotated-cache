@@ -2,9 +2,10 @@
 
 namespace PhproTest\AnnotatedCache\Unit\KeyGenerator;
 
-
 use Phpro\AnnotatedCache\KeyGenerator\ExpressionGenerator;
 use Phpro\AnnotatedCache\KeyGenerator\KeyGeneratorInterface;
+use PhproTest\AnnotatedCache\Objects\TestAnnotation;
+use PhproTest\AnnotatedCache\Objects\TestInterception;
 use Zend\Code\Generator\GeneratorInterface;
 
 class ExpressionGeneratorTest extends \PHPUnit_Framework_TestCase
@@ -38,20 +39,36 @@ class ExpressionGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     function it_generates_key_with_evaluations()
     {
-        $this->innerGenerator->method('generateKey')->with(['expression' => 'value1value2'])->willReturn('success');
-        $result = $this->keyGenerator->generateKey(['key1' => 'value1', 'key2' => 'value2'], 'key1 ~ key2');
+        $interception = new TestInterception(null, 'method', ['key1' => 'value1', 'key2' => 'value2']);
+        $annotation = new TestAnnotation(['key' => 'key1 ~ key2']);
 
-        $this->assertEquals('success', $result);
+        $expected = sha1(serialize('value1value2'));
+        $this->assertEquals($expected, $this->keyGenerator->generateKey($interception, $annotation));
     }
+
+    /**
+     * @test
+     */
+    function it_generates_key_with_interception_context()
+    {
+        $interception = new TestInterception(null, 'method', ['key1' => 'value1', 'key2' => 'value2']);
+        $annotation = new TestAnnotation(['key' => 'interception.getMethod()']);
+
+        $expected = sha1(serialize('method'));
+        $this->assertEquals($expected, $this->keyGenerator->generateKey($interception, $annotation));
+    }
+
 
     /**
      * @test
      */
     function it_skips_expressions_when_no_key_is_entered()
     {
-        $params = ['key1' => 'value1', 'key2' => 'value2'];
-        $this->innerGenerator->method('generateKey')->with($params)->willReturn('success');
-        $result = $this->keyGenerator->generateKey($params);
+        $interception = new TestInterception(null, 'method', ['key1' => 'value1', 'key2' => 'value2']);
+        $annotation = new TestAnnotation(['key' => '']);
+
+        $this->innerGenerator->method('generateKey')->with($interception, $annotation)->willReturn('success');
+        $result = $this->keyGenerator->generateKey($interception, $annotation);
 
         $this->assertEquals('success', $result);
     }

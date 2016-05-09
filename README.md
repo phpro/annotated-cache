@@ -200,6 +200,20 @@ For key generation, [Symfony Expression Language](http://symfony.com/doc/current
  ```
 
 The Expression Language allow you to retrieve any arguments passed to your method and use it to generate the cache key.
+Note that you also have access to the `InterceptionInterface`. 
+This means you can add other data like the `instance` and `method` to the key. 
+For CacheUpdate and CacheEvict, you will also have access to the `returnValue`. 
+Here is a little example:
+
+```php
+/**
+ * @Cacheable(pools="products", key="interception.getMethod() ~ id")
+ */
+ public function getProduct(int $id)
+ {
+    // do something
+ }
+ ```
 
 #### Tags
 

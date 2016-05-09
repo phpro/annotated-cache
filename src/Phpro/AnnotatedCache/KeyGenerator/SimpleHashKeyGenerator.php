@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\KeyGenerator;
 
+use Phpro\AnnotatedCache\Annotation\CacheAnnotationInterface;
 use Phpro\AnnotatedCache\Exception\UnsupportedKeyParameterException;
+use Phpro\AnnotatedCache\Interception\InterceptionInterface;
 
 /**
  * Class SimpleHashKeyGenerator
@@ -13,17 +15,18 @@ use Phpro\AnnotatedCache\Exception\UnsupportedKeyParameterException;
 class SimpleHashKeyGenerator implements KeyGeneratorInterface
 {
     /**
-     * @param array $parameters
+     * @param InterceptionInterface    $interception
+     * @param CacheAnnotationInterface $annotation
      *
-     * @return mixed
+     * @return string
      * @throws UnsupportedKeyParameterException
      */
-    public function generateKey(array $parameters, $format = '') : string
+    public function generateKey(InterceptionInterface $interception, CacheAnnotationInterface $annotation) : string
     {
-        $hash = 1234;
-        foreach ($parameters as $key => $value) {
+        $hash = get_class($interception->getInstance()) . '::' . $interception->getMethod() . ';';
+        foreach ($interception->getParams() as $key => $value) {
             if (null === $value) {
-                $paramHash = 5678;
+                $paramHash = 'null';
             } elseif (is_scalar($value)) {
                 $paramHash = sha1($value);
             } elseif (is_array($value) || is_object($value)) {

@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Phpro\AnnotatedCache\KeyGenerator;
 
+use Doctrine\Common\Annotations\Annotation;
+use Phpro\AnnotatedCache\Annotation\CacheAnnotationInterface;
 use Phpro\AnnotatedCache\Exception\UnsupportedKeyParameterException;
+use Phpro\AnnotatedCache\Interception\InterceptionInterface;
 
 /**
  * Interface KeyGeneratorInterface
@@ -14,11 +17,11 @@ interface KeyGeneratorInterface
 {
 
     /**
-     * @param array  $parameters
-     * @param string $format
+     * @param InterceptionInterface    $interception
+     * @param CacheAnnotationInterface $annotation
      *
      * @return string
      * @throws UnsupportedKeyParameterException
      */
-    public function generateKey(array $parameters, $format = '') : string;
+    public function generateKey(InterceptionInterface $interception, CacheAnnotationInterface $annotation) : string;
 }
