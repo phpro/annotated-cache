@@ -31,7 +31,7 @@ $poolManager = Factory::createPoolManager();
 $poolManager->addPool('products', $psr6CachePool);
 
 $cacheHandler = Factory::createCacheHandler($poolManager);
-$proxyGenerator = Factory::createProxyGenerator($poolManager);
+$proxyGenerator = Factory::createProxyGenerator($cacheHandler);
 
 $myService = $proxyGenerator->generate(new My\Service());
 ```
