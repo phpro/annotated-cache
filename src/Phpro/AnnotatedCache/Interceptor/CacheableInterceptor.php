@@ -117,7 +117,7 @@ class CacheableInterceptor implements InterceptorInterface
      *
      * @return string
      */
-    private function calculateKey(CacheAnnotationInterface $annotation, InterceptionInterface $interception) : string
+    protected function calculateKey(CacheAnnotationInterface $annotation, InterceptionInterface $interception) : string
     {
         return $this->keyGenerator->generateKey($interception, $annotation);
     }
@@ -142,5 +142,13 @@ class CacheableInterceptor implements InterceptorInterface
         }
 
         return $item;
+    }
+
+    /**
+     * @return PoolManagerInterface
+     */
+    protected function getPoolManager(): PoolManagerInterface
+    {
+        return $this->poolManager;
     }
 }
