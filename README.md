@@ -264,9 +264,19 @@ Next you can register this custom interceptor on the cache handler and do your o
 
 ```php
 $cacheHandler = Factory::createCacheHandler($poolManager);
-$cacheHandler->addInterceptor($myCustomInterceptor)
+$cacheHandler->addInterceptor($myCustomInterceptor);
 ```
 
+### Using Symfony Cache
+
+You need to initialize DoctrineCommonCacheableInterceptor and now you are abble to use Annotated Cache with Symfony pool manager.
+
+```php
+$cacheHandler = Factory::createCacheHandler($poolManager);
+
+$myCustomInterceptor = new DoctrineCommonCacheableInterceptor($poolManager, $keyGenerator);
+$cacheHandler->addInterceptor($myCustomInterceptor);
+```
 
 ## About
 
