@@ -123,7 +123,7 @@ class ProxyGenerator
         ) use (
             $cacheHandler,
             $annotations
-) {
+        ) {
             $interception = new ProxyInterceptionPrefix($instance, $method, $params);
             if (!$result = $cacheHandler->interceptProxyPrefix($annotations, $interception)) {
                 return null;
@@ -155,7 +155,7 @@ class ProxyGenerator
         ) use (
             $cacheHandler,
             $annotations
-) {
+        ) {
             $interception = new ProxyInterceptionSuffix($instance, $method, $params, $returnValue);
             if (!$result = $cacheHandler->interceptProxySuffix($annotations, $interception)) {
                 return null;
